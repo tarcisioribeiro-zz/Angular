@@ -16,7 +16,18 @@ export class AppComponent {
     this.todos.push(new Todo(3, 'Cortar o cabelo', true));
   }
 
-  alteraTexto(){
-    this.title  = 'Teste';
+  remove(todo: Todo){
+    const index = this.todos.indexOf(todo);
+    if (index !== -1) {
+      this.todos.splice(index, 1);
+    }
+  }
+
+  markAsDone(){
+
+  }
+
+  markAsUndone(){
+    
   }
 }
