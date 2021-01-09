@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Todo } from 'src/models/todo.model';
 
 @Component({
@@ -9,19 +9,23 @@ import { Todo } from 'src/models/todo.model';
 })
 export class AppComponent {
   public todos: Todo[] = [];
-  public title: String = 'Minhas Tarefas';
   public form: FormGroup;
+  public mode: String = 'list';
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       title: ['', Validators.compose([
         Validators.minLength(3),
         Validators.maxLength(60),
-        Validators.required
+        Validators.required,
       ])]
     });
 
     this.load();
+  }
+
+  changeMode(mode: String) {
+    this.mode = mode;
   }
 
   add() {
@@ -30,6 +34,7 @@ export class AppComponent {
     this.todos.push(new Todo(id, title, false));
     this.save();
     this.clear();
+    this.changeMode('list');
   }
 
   clear() {
@@ -61,11 +66,10 @@ export class AppComponent {
 
   load() {
     const data = localStorage.getItem('todos');
-    if(data){
+    if (data) {
       this.todos = JSON.parse(data);
-    }else{
+    } else {
       this.todos = [];
     }
-    
   }
 }
